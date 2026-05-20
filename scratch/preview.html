@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Gallery Preview</title>
+    <style>
+        body { font-family: sans-serif; background: #1e293b; color: #f8fafc; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; text-align: center; }
+        img { max-width: 100%; height: 180px; object-fit: cover; border-radius: 4px; }
+        .info { margin-top: 10px; font-size: 12px; color: #94a3b8; }
+        h3 { margin: 5px 0; font-size: 14px; color: #dcaf6a; }
+    </style>
+</head>
+<body>
+    <h2>Project Images Preview</h2>
+    <div class="grid" id="gallery"></div>
+    <script>
+        const images = [
+            { src: 'img/kashmir-cottages.png', name: 'kashmir-cottages.png (15MB)' },
+            { src: 'img/villa_exterior_both.png', name: 'villa_exterior_both.png (831KB)' },
+            { src: 'img/villa_exterior_red.png', name: 'villa_exterior_red.png (831KB)' },
+            { src: 'img/villa_exterior_white.png', name: 'villa_exterior_white.png (880KB)' },
+            { src: 'img/villa_interior_living.png', name: 'villa_interior_living.png (677KB)' },
+            { src: 'img/villa_interior_panels_close.png', name: 'villa_interior_panels_close.png (657KB)' },
+            { src: 'img/menu-2.jpg', name: 'menu-2.jpg' },
+            { src: 'img/menu-3.jpg', name: 'menu-3.jpg' },
+            { src: 'img/menu-4.jpg', name: 'menu-4.jpg' },
+            { src: 'img/menu-5.jpg', name: 'menu-5.jpg' },
+            { src: 'img/menu-6.jpg', name: 'menu-6.jpg' },
+            { src: 'img/menu-7.jpg', name: 'menu-7.jpg' },
+            { src: 'img/menu-8.jpg', name: 'menu-8.jpg' },
+            { src: 'uploads/file-1779299346264-887387707.png', name: 'uploads/file-1779299346264-887387707.png (2.4MB)' },
+            { src: 'uploads/file-1779299453269-106274903.jpeg', name: 'uploads/file-1779299453269-106274903.jpeg (43KB)' },
+            { src: 'uploads/file-1779299527407-389041496.png', name: 'uploads/file-1779299527407-389041496.png (1.8MB)' },
+            { src: 'uploads/file-1779301969603-63088760.png', name: 'uploads/file-1779301969603-63088760.png (2.4MB)' }
+        ];
+        
+        const gallery = document.getElementById('gallery');
+        images.forEach(img => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <img src="../${img.src}" alt="${img.name}">
+                <h3>${img.name}</h3>
+                <div class="info">${img.src}</div>
+            `;
+            gallery.appendChild(card);
+        });
+    </script>
+</body>
+</html>

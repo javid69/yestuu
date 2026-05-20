@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Admin Login - Asylen Ventures</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS for Admin Login -->
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #F8FAFC;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Ambient light elements */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(220, 175, 106, 0.15); /* Primary Gold brand color */
+            border-radius: 50%;
+            top: -50px;
+            left: -50px;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 50%;
+            bottom: -100px;
+            right: -100px;
+            filter: blur(100px);
+            z-index: 0;
+        }
+
+        .login-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            position: relative;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .login-card:hover {
+            border-color: rgba(220, 175, 106, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-logo-container img {
+            height: 50px;
+            margin-right: 12px;
+        }
+
+        .brand-logo-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #FEF08A 0%, #DCAF6A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-floating > .form-control {
+            background-color: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #F8FAFC;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .form-floating > .form-control:focus {
+            background-color: rgba(15, 23, 42, 0.6);
+            border-color: #DCAF6A;
+            box-shadow: 0 0 0 3px rgba(220, 175, 106, 0.15);
+        }
+
+        .form-floating > label {
+            color: #94A3B8;
+        }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            color: #DCAF6A;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #FEF08A 0%, #DCAF6A 100%);
+            border: none;
+            color: #0F172A;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 175, 106, 0.3);
+            background: linear-gradient(135deg, #FFF 0%, #DCAF6A 100%);
+            color: #0F172A;
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            transition: color 0.2s;
+        }
+
+        .back-link i {
+            margin-right: 6px;
+            transition: transform 0.2s;
+        }
+
+        .back-link:hover {
+            color: #DCAF6A;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-4px);
+        }
+
+        .alert-custom {
+            background-color: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #FCA5A5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Main Site
+        </a>
+        
+        <div class="brand-logo-container">
+            <img src="img/logo.png" alt="Asylen Ventures Logo">
+            <h1>Asylen Ventures</h1>
+        </div>
+        
+        <h4 class="text-center mb-4 fw-normal" style="color: #E2E8F0;">Admin Portal</h4>
+        
+        <form id="loginForm">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" placeholder="Username" required autocomplete="username">
+                <label for="username">Username</label>
+            </div>
+            
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" id="password" placeholder="Password" required autocomplete="current-password">
+                <label for="password">Password</label>
+            </div>
+            
+            <button type="submit" class="btn btn-submit w-100 py-3 mb-2" id="loginBtn">Sign In</button>
+            
+            <div id="loginStatus" class="alert alert-custom d-none mt-3"></div>
+        </form>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Check if loaded via file:// protocol
+            if (window.location.protocol === 'file:') {
+                $('#loginStatus').removeClass('d-none').html(
+                    '<strong>Protocol Restriction:</strong> You have opened this page directly from your filesystem (<code>file://</code>).<br>' +
+                    'Please run the server using <code>node server.js</code> and access the portal at ' +
+                    '<a href="http://localhost:5500/admin-login.html" style="color: #FEF08A; text-decoration: underline;">http://localhost:5500/admin-login.html</a>.'
+                );
+                $('#loginBtn').prop('disabled', true);
+                return;
+            }
+
+            // Check if already logged in (redirect to dashboard)
+            fetch('/api/admin/me')
+                .then(res => {
+                    if (res.status === 200) {
+                        window.location.href = 'admin-dashboard.html';
+                    }
+                })
+                .catch(err => console.log('Session check failed:', err));
+
+            $('#loginForm').submit(function(e) {
+                e.preventDefault();
+                const username = $('#username').val();
+                const password = $('#password').val();
+                const statusDiv = $('#loginStatus');
+                const btn = $('#loginBtn');
+
+                btn.prop('disabled', true).text('Signing In...');
+                statusDiv.addClass('d-none');
+
+                fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                })
+                .then(res => res.json().then(data => ({ status: res.status, body: data })))
+                .then(res => {
+                    if (res.status === 200) {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        btn.prop('disabled', false).text('Sign In');
+                        statusDiv.removeClass('d-none').text(res.body.error || 'Invalid credentials');
+                    }
+                })
+                .catch(err => {
+                    btn.prop('disabled', false).text('Sign In');
+                    statusDiv.removeClass('d-none').text('Server error. Please try again.');
+                    console.error('Login error:', err);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

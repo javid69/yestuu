@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Admin Dashboard - Asylen Ventures</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet (We can use style.css as base and override with our dashboard specific overrides) -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --primary-gold: #DCAF6A;
+            --dark-slate: #0F172A;
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--dark-slate);
+            color: #F8FAFC;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-brand {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-brand img {
+            height: 35px;
+            margin-right: 10px;
+        }
+
+        .sidebar-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary-gold);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+            list-style: none;
+            margin: 0;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: #94A3B8;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu li a i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-menu li a:hover,
+        .sidebar-menu li.active a {
+            color: #F8FAFC;
+            background-color: rgba(255, 255, 255, 0.04);
+            border-left-color: var(--primary-gold);
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* Top Header Styling */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background-color: #FFF;
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .header-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin: 0;
+            color: var(--dark-slate);
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-user span {
+            font-weight: 600;
+            color: #64748B;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background-color: #FFF;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .icon-properties {
+            background-color: rgba(220, 175, 106, 0.1);
+            color: var(--primary-gold);
+        }
+
+        .icon-bookings {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+        }
+
+        .icon-messages {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-slate);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            color: #64748B;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Content Sections */
+        .dashboard-section {
+            display: none;
+        }
+
+        .dashboard-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-custom {
+            background-color: #FFF;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            margin-bottom: 30px;
+        }
+
+        .card-custom-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-custom-header h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin: 0;
+            color: var(--dark-slate);
+        }
+
+        /* Table Styling */
+        .table-responsive {
+            border-radius: 0 0 12px 12px;
+        }
+
+        .table-custom {
+            margin: 0;
+        }
+
+        .table-custom th {
+            background-color: #F8FAFC;
+            color: #475569;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .table-custom td {
+            padding: 16px 24px;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            color: #334155;
+        }
+
+        .table-custom tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Badges */
+        .badge-pending {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #D97706;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-confirmed {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-cancelled {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #DC2626;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-unread {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #2563EB;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-read {
+            background-color: rgba(100, 116, 139, 0.1);
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        /* Property list item */
+        .property-row-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Buttons overrides */
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            margin-right: 5px;
+            border: 1px solid transparent;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-action-confirm {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .btn-action-confirm:hover {
+            background-color: #10B981;
+            color: #FFF;
+        }
+
+        .btn-action-cancel {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #F59E0B;
+        }
+
+        .btn-action-cancel:hover {
+            background-color: #F59E0B;
+            color: #FFF;
+        }
+
+        .btn-action-delete {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .btn-action-delete:hover {
+            background-color: #EF4444;
+            color: #FFF;
+        }
+
+        .btn-action-read {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+        }
+
+        .btn-action-read:hover {
+            background-color: #3B82F6;
+            color: #FFF;
+        }
+
+        .btn-action-edit {
+            background-color: rgba(100, 116, 139, 0.1);
+            color: #64748B;
+        }
+
+        .btn-action-edit:hover {
+            background-color: #64748B;
+            color: #FFF;
+        }
+
+        /* Modal Overlay Styling */
+        .modal-header {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: var(--dark-slate);
+            color: #FFF;
+        }
+
+        .modal-header h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #FEF08A 0%, #DCAF6A 100%);
+            border: none;
+            color: #0F172A;
+            font-weight: 600;
+        }
+
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #FFF 0%, #DCAF6A 100%);
+            color: #0F172A;
+            box-shadow: 0 4px 12px rgba(220, 175, 106, 0.2);
+        }
+
+        /* Responsive Dashboard Overrides */
+        @media (max-width: 991.98px) {
+            :root {
+                --sidebar-width: 260px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                box-shadow: none;
+            }
+
+            body.sidebar-open .sidebar {
+                transform: translateX(0);
+                box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .dashboard-header {
+                padding: 12px 20px;
+                margin-bottom: 20px;
+            }
+
+            .header-title h2 {
+                font-size: 1.25rem;
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(15, 23, 42, 0.5);
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+                z-index: 99;
+            }
+
+            body.sidebar-open .sidebar-overlay {
+                display: block;
+            }
+
+            .sidebar-toggle-btn {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                background: #F1F5F9;
+                border: none;
+                border-radius: 8px;
+                color: var(--dark-slate);
+                margin-right: 12px;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+
+            .sidebar-toggle-btn:hover {
+                background: #E2E8F0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="img/logo.png" alt="Asylen Ventures Logo">
+            <h3>Asylen Admin</h3>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-item active" data-section="overview">
+                <a href="#overview"><i class="fas fa-chart-line"></i>Overview</a>
+            </li>
+            <li class="menu-item" data-section="bookings">
+                <a href="#bookings"><i class="fas fa-calendar-check"></i>Bookings</a>
+            </li>
+            <li class="menu-item" data-section="messages">
+                <a href="#messages"><i class="fas fa-envelope"></i>Messages</a>
+            </li>
+            <li class="menu-item" data-section="properties">
+                <a href="#properties"><i class="fas fa-home"></i>Properties</a>
+            </li>
+            <li class="menu-item" data-section="settings">
+                <a href="#settings"><i class="fas fa-cog"></i>Site Settings</a>
+            </li>
+            <li class="menu-item" data-section="social-links">
+                <a href="#social-links"><i class="fas fa-share-alt"></i>Social Links</a>
+            </li>
+            <li class="menu-item" data-section="map-locations">
+                <a href="#map-locations"><i class="fas fa-map-marked-alt"></i>Map Locations</a>
+            </li>
+            <li style="margin-top: 40px;">
+                <a href="#" id="logoutBtn" class="text-danger"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Sidebar Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Top Header -->
+        <div class="dashboard-header">
+            <div class="header-title d-flex align-items-center">
+                <button class="sidebar-toggle-btn d-none" id="sidebarToggle" aria-label="Toggle Sidebar"><i class="fas fa-bars"></i></button>
+                <h2>Asylen Ventures Portal</h2>
+            </div>
+            <div class="header-user">
+                <span>Welcome, Administrator</span>
+                <i class="fas fa-user-circle fa-2x text-muted"></i>
+            </div>
+        </div>
+
+        <!-- SECTION: OVERVIEW -->
+        <div id="section-overview" class="dashboard-section active">
+            <!-- Row of Stat Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-properties">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="stat-value" id="stat-properties-count">-</div>
+                        <div class="stat-label">Total Properties</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-bookings">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-value" id="stat-bookings-count">-</div>
+                        <div class="stat-label">Total Bookings</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-messages">
+                            <i class="fas fa-envelope-open"></i>
+                        </div>
+                        <div class="stat-value" id="stat-messages-count">-</div>
+                        <div class="stat-label">Unread Messages</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Bookings and Messages Preview -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card-custom">
+                        <div class="card-custom-header">
+                            <h4>Recent Bookings</h4>
+                            <button class="btn btn-sm btn-link text-primary p-0 view-all-link" data-section="bookings">View All</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-custom align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Property</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-bookings-list">
+                                    <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card-custom">
+                        <div class="card-custom-header">
+                            <h4>Recent Messages</h4>
+                            <button class="btn btn-sm btn-link text-primary p-0 view-all-link" data-section="messages">View All</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-custom align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Subject</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-messages-list">
+                                    <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: BOOKINGS -->
+        <div id="section-bookings" class="dashboard-section">
+            <div class="card-custom">
+                <div class="card-custom-header">
+                    <h4>Site Visit Bookings</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Date & Time</th>
+                                <th>Interest</th>
+                                <th>Notes</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-table-body">
+                            <tr><td colspan="8" class="text-center text-muted">Loading Bookings...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: MESSAGES -->
+        <div id="section-messages" class="dashboard-section">
+            <div class="card-custom">
+                <div class="card-custom-header">
+                    <h4>Contact Messages</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="messages-table-body">
+                            <tr><td colspan="7" class="text-center text-muted">Loading Messages...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: PROPERTIES -->
+        <div id="section-properties" class="dashboard-section">
+            <div class="card-custom">
+                <div class="card-custom-header">
+                    <h4>Properties Portfolio</h4>
+                    <button class="btn btn-gold btn-sm px-3" data-bs-toggle="modal" data-bs-target="#propertyModal" id="addPropertyBtn">
+                        <i class="fas fa-plus me-1"></i> Add Property
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom align-middle">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="properties-table-body">
+                            <tr><td colspan="6" class="text-center text-muted">Loading Properties...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: SETTINGS -->
+        <div id="section-settings" class="dashboard-section">
+            <div class="card-custom">
+                <div class="card-custom-header">
+                    <h4>Customize Site Content (CMS)</h4>
+                    <button class="btn btn-gold btn-sm px-4" id="saveSettingsBtn">
+                        <i class="fas fa-save me-1"></i> Save All Settings
+                    </button>
+                </div>
+                <div class="card-body p-4">
+                    <div id="settingsStatus" class="alert d-none mb-4"></div>
+                    <form id="settingsForm">
+                        <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="tab-hero-tab" data-bs-toggle="tab" data-bs-target="#tab-hero" type="button" role="tab"><i class="fas fa-image me-1"></i> Hero Section</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tab-about-tab" data-bs-toggle="tab" data-bs-target="#tab-about" type="button" role="tab"><i class="fas fa-info-circle me-1"></i> About Us</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tab-signature-tab" data-bs-toggle="tab" data-bs-target="#tab-signature" type="button" role="tab"><i class="fas fa-star me-1"></i> Signature Showcase</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tab-testimonials-tab" data-bs-toggle="tab" data-bs-target="#tab-testimonials" type="button" role="tab"><i class="fas fa-comments me-1"></i> Testimonials</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tab-contact-tab" data-bs-toggle="tab" data-bs-target="#tab-contact" type="button" role="tab"><i class="fas fa-phone-alt me-1"></i> Contact Details</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="settingsTabContent">
+                            <!-- HERO TAB -->
+                            <div class="tab-pane fade show active" id="tab-hero" role="tabpanel">
+                                <div class="p-3 border rounded bg-white mb-4">
+                                    <h5 class="border-bottom pb-2 mb-3 text-dark"><i class="fas fa-image me-2 text-primary"></i>Hero Section Settings</h5>
+                                    <div class="mb-3">
+                                        <label for="set_hero_title" class="form-label fw-bold">Hero Title</label>
+                                        <input type="text" class="form-control" id="set_hero_title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_hero_subtitle" class="form-label fw-bold">Hero Subtitle</label>
+                                        <textarea class="form-control" id="set_hero_subtitle" rows="3" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_hero_video_url" class="form-label fw-bold">Hero Video URL / Path</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="set_hero_video_url" required>
+                                            <input type="file" class="d-none media-upload-input" data-target="set_hero_video_url" accept="video/*,image/*">
+                                            <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i> Upload</button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_hero_button_text" class="form-label fw-bold">Hero Button Text</label>
+                                        <input type="text" class="form-control" id="set_hero_button_text" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ABOUT TAB -->
+                            <div class="tab-pane fade" id="tab-about" role="tabpanel">
+                                <div class="p-3 border rounded bg-white mb-4">
+                                    <h5 class="border-bottom pb-2 mb-3 text-dark"><i class="fas fa-info-circle me-2 text-primary"></i>About Section Settings</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="set_about_title" class="form-label fw-bold">Small Header</label>
+                                                <input type="text" class="form-control" id="set_about_title" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="set_about_heading" class="form-label fw-bold">Main Heading</label>
+                                                <input type="text" class="form-control" id="set_about_heading" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="set_about_desc1" class="form-label fw-bold">Description Paragraph 1</label>
+                                                <textarea class="form-control" id="set_about_desc1" rows="3" required></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="set_about_desc2" class="form-label fw-bold">Description Paragraph 2</label>
+                                                <textarea class="form-control" id="set_about_desc2" rows="3" required></textarea>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="set_about_experience_years" class="form-label fw-bold">Years of Experience</label>
+                                                    <input type="number" class="form-control" id="set_about_experience_years" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="set_about_homeowners_count" class="form-label fw-bold">Homeowners Count</label>
+                                                    <input type="number" class="form-control" id="set_about_homeowners_count" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="set_about_img1" class="form-label fw-bold">About Image 1 (Exterior Both)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="set_about_img1" required>
+                                                    <input type="file" class="d-none media-upload-input" data-target="set_about_img1" accept="image/*">
+                                                    <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i> Upload</button>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="set_about_img2" class="form-label fw-bold">About Image 2 (Exterior White)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="set_about_img2" required>
+                                                    <input type="file" class="d-none media-upload-input" data-target="set_about_img2" accept="image/*">
+                                                    <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i> Upload</button>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="set_about_img3" class="form-label fw-bold">About Image 3 (Interior Living)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="set_about_img3" required>
+                                                    <input type="file" class="d-none media-upload-input" data-target="set_about_img3" accept="image/*">
+                                                    <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i> Upload</button>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="set_about_img4" class="form-label fw-bold">About Image 4 (Exterior Red)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="set_about_img4" required>
+                                                    <input type="file" class="d-none media-upload-input" data-target="set_about_img4" accept="image/*">
+                                                    <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i> Upload</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SIGNATURE SHOWCASE TAB -->
+                            <div class="tab-pane fade" id="tab-signature" role="tabpanel">
+                                <div class="p-3 border rounded bg-white mb-4">
+                                    <h5 class="border-bottom pb-2 mb-3 text-dark"><i class="fas fa-star me-2 text-primary"></i>Signature Estates Settings</h5>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="set_sig_title" class="form-label fw-bold">Section Subtitle</label>
+                                            <input type="text" class="form-control" id="set_sig_title" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="set_sig_heading" class="form-label fw-bold">Section Heading</label>
+                                            <input type="text" class="form-control" id="set_sig_heading" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 mb-4">
+                                        <!-- Estate Card 1 -->
+                                        <div class="col-md-4">
+                                            <div class="p-2 border rounded bg-light">
+                                                <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">Estate Card 1</h6>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate1_title" class="form-label small fw-bold">Title</label>
+                                                    <input type="text" class="form-control form-control-sm" id="set_sig_estate1_title" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate1_tag" class="form-label small fw-bold">Tag</label>
+                                                    <input type="text" class="form-control form-control-sm" id="set_sig_estate1_tag" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate1_desc" class="form-label small fw-bold">Description</label>
+                                                    <textarea class="form-control form-control-sm" id="set_sig_estate1_desc" rows="3" required></textarea>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate1_img" class="form-label small fw-bold">Image</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="set_sig_estate1_img" required>
+                                                        <input type="file" class="d-none media-upload-input" data-target="set_sig_estate1_img" accept="image/*">
+                                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-1">
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate1_bed" class="form-label small fw-bold">Detail 1</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate1_bed" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate1_bath" class="form-label small fw-bold">Detail 2</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate1_bath" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate1_sqft" class="form-label small fw-bold">Detail 3</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate1_sqft" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Estate Card 2 -->
+                                        <div class="col-md-4">
+                                            <div class="p-2 border rounded bg-light">
+                                                <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">Estate Card 2</h6>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate2_title" class="form-label small fw-bold">Title</label>
+                                                    <input type="text" class="form-control form-control-sm" id="set_sig_estate2_title" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate2_tag" class="form-label small fw-bold">Tag</label>
+                                                    <input type="text" class="form-control form-control-sm" id="set_sig_estate2_tag" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate2_desc" class="form-label small fw-bold">Description</label>
+                                                    <textarea class="form-control form-control-sm" id="set_sig_estate2_desc" rows="3" required></textarea>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate2_img" class="form-label small fw-bold">Image</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="set_sig_estate2_img" required>
+                                                        <input type="file" class="d-none media-upload-input" data-target="set_sig_estate2_img" accept="image/*">
+                                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-1">
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate2_bed" class="form-label small fw-bold">Detail 1</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate2_bed" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate2_bath" class="form-label small fw-bold">Detail 2</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate2_bath" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate2_sqft" class="form-label small fw-bold">Detail 3</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate2_sqft" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Estate Card 3 -->
+                                        <div class="col-md-4">
+                                            <div class="p-2 border rounded bg-light">
+                                                <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">Estate Card 3</h6>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate3_title" class="form-label small fw-bold">Title</label>
+                                                    <input type="text" class="form-control form-control-sm" id="set_sig_estate3_title" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate3_tag" class="form-label small fw-bold">Tag</label>
+                                                    <input type="text" class="form-control form-control-sm" id="set_sig_estate3_tag" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate3_desc" class="form-label small fw-bold">Description</label>
+                                                    <textarea class="form-control form-control-sm" id="set_sig_estate3_desc" rows="3" required></textarea>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_sig_estate3_img" class="form-label small fw-bold">Image</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="set_sig_estate3_img" required>
+                                                        <input type="file" class="d-none media-upload-input" data-target="set_sig_estate3_img" accept="image/*">
+                                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-1">
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate3_bed" class="form-label small fw-bold">Detail 1</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate3_bed" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate3_bath" class="form-label small fw-bold">Detail 2</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate3_bath" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label for="set_sig_estate3_sqft" class="form-label small fw-bold">Detail 3</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_estate3_sqft" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Artistry Section Details -->
+                                    <div class="border-top pt-3">
+                                        <h6 class="fw-bold mb-3 text-dark"><i class="fas fa-palette me-2 text-primary"></i>Artistry Section Details (Lower Showcase Panel)</h6>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="set_sig_artistry_title" class="form-label fw-bold">Title</label>
+                                                    <input type="text" class="form-control" id="set_sig_artistry_title" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="set_sig_artistry_desc1" class="form-label fw-bold">Description Paragraph 1</label>
+                                                    <textarea class="form-control" id="set_sig_artistry_desc1" rows="3" required></textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="set_sig_artistry_desc2" class="form-label fw-bold">Description Paragraph 2</label>
+                                                    <textarea class="form-control" id="set_sig_artistry_desc2" rows="3" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="set_sig_artistry_img" class="form-label fw-bold">Main Side Image</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="set_sig_artistry_img" required>
+                                                        <input type="file" class="d-none media-upload-input" data-target="set_sig_artistry_img" accept="image/*">
+                                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i> Upload</button>
+                                                    </div>
+                                                </div>
+                                                <div class="p-2 border rounded bg-light">
+                                                    <h6 class="fw-bold mb-2">Sub Feature Item</h6>
+                                                    <div class="mb-2">
+                                                        <label for="set_sig_artistry_sub_title" class="form-label small fw-bold">Sub-item Title</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_artistry_sub_title" required>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <label for="set_sig_artistry_sub_tag" class="form-label small fw-bold">Sub-item Tag</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_sig_artistry_sub_tag" required>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <label for="set_sig_artistry_sub_img" class="form-label small fw-bold">Sub-item Image</label>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="text" class="form-control" id="set_sig_artistry_sub_img" required>
+                                                            <input type="file" class="d-none media-upload-input" data-target="set_sig_artistry_sub_img" accept="image/*">
+                                                            <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TESTIMONIALS TAB -->
+                            <div class="tab-pane fade" id="tab-testimonials" role="tabpanel">
+                                <div class="p-3 border rounded bg-white mb-4">
+                                    <h5 class="border-bottom pb-2 mb-3 text-dark"><i class="fas fa-comments me-2 text-primary"></i>Customer Testimonials Settings</h5>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="set_test_title" class="form-label fw-bold">Section Subtitle</label>
+                                            <input type="text" class="form-control" id="set_test_title" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="set_test_heading" class="form-label fw-bold">Section Heading</label>
+                                            <input type="text" class="form-control" id="set_test_heading" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3">
+                                        <!-- Testimonial 1 -->
+                                        <div class="col-md-6">
+                                            <div class="p-2 border rounded bg-light">
+                                                <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">Testimonial 1</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-6">
+                                                        <label for="set_test1_name" class="form-label small fw-bold">Client Name</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_test1_name" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="set_test1_title" class="form-label small fw-bold">Client Subtitle</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_test1_title" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_test1_desc" class="form-label small fw-bold">Client Quote</label>
+                                                    <textarea class="form-control form-control-sm" id="set_test1_desc" rows="3" required></textarea>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_test1_img" class="form-label small fw-bold">Client Photo</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="set_test1_img" required>
+                                                        <input type="file" class="d-none media-upload-input" data-target="set_test1_img" accept="image/*">
+                                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Testimonial 2 -->
+                                        <div class="col-md-6">
+                                            <div class="p-2 border rounded bg-light">
+                                                <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">Testimonial 2</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-6">
+                                                        <label for="set_test2_name" class="form-label small fw-bold">Client Name</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_test2_name" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="set_test2_title" class="form-label small fw-bold">Client Subtitle</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_test2_title" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_test2_desc" class="form-label small fw-bold">Client Quote</label>
+                                                    <textarea class="form-control form-control-sm" id="set_test2_desc" rows="3" required></textarea>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_test2_img" class="form-label small fw-bold">Client Photo</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="set_test2_img" required>
+                                                        <input type="file" class="d-none media-upload-input" data-target="set_test2_img" accept="image/*">
+                                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Testimonial 3 -->
+                                        <div class="col-md-6">
+                                            <div class="p-2 border rounded bg-light">
+                                                <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">Testimonial 3</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-6">
+                                                        <label for="set_test3_name" class="form-label small fw-bold">Client Name</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_test3_name" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="set_test3_title" class="form-label small fw-bold">Client Subtitle</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_test3_title" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_test3_desc" class="form-label small fw-bold">Client Quote</label>
+                                                    <textarea class="form-control form-control-sm" id="set_test3_desc" rows="3" required></textarea>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_test3_img" class="form-label small fw-bold">Client Photo</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="set_test3_img" required>
+                                                        <input type="file" class="d-none media-upload-input" data-target="set_test3_img" accept="image/*">
+                                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Testimonial 4 -->
+                                        <div class="col-md-6">
+                                            <div class="p-2 border rounded bg-light">
+                                                <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">Testimonial 4</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-6">
+                                                        <label for="set_test4_name" class="form-label small fw-bold">Client Name</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_test4_name" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="set_test4_title" class="form-label small fw-bold">Client Subtitle</label>
+                                                        <input type="text" class="form-control form-control-sm" id="set_test4_title" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_test4_desc" class="form-label small fw-bold">Client Quote</label>
+                                                    <textarea class="form-control form-control-sm" id="set_test4_desc" rows="3" required></textarea>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="set_test4_img" class="form-label small fw-bold">Client Photo</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="set_test4_img" required>
+                                                        <input type="file" class="d-none media-upload-input" data-target="set_test4_img" accept="image/*">
+                                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CONTACT TAB -->
+                            <div class="tab-pane fade" id="tab-contact" role="tabpanel">
+                                <div class="p-3 border rounded bg-white mb-4">
+                                    <h5 class="border-bottom pb-2 mb-3 text-dark"><i class="fas fa-phone me-2 text-primary"></i>Contact Info Settings</h5>
+                                    <div class="mb-3">
+                                        <label for="set_contact_address" class="form-label fw-bold">Office Address</label>
+                                        <input type="text" class="form-control" id="set_contact_address" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_contact_phone" class="form-label fw-bold">Phone Number</label>
+                                        <input type="text" class="form-control" id="set_contact_phone" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_contact_email" class="form-label fw-bold">Email Address</label>
+                                        <input type="email" class="form-control" id="set_contact_email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_contact_hours_weekdays" class="form-label fw-bold">Hours (Mon-Sat)</label>
+                                        <input type="text" class="form-control" id="set_contact_hours_weekdays" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_contact_hours_sunday" class="form-label fw-bold">Hours (Sunday)</label>
+                                        <input type="text" class="form-control" id="set_contact_hours_sunday" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_contact_map_url" class="form-label fw-bold">Google Maps Embed URL</label>
+                                        <textarea class="form-control form-control-sm" id="set_contact_map_url" rows="3" required placeholder="https://www.google.com/maps/embed?pb=!1m18..."></textarea>
+                                        <div class="form-text small">Copy the <code>src</code> URL from the Google Maps iframe embed code. Make sure it starts with <code>https://www.google.com/maps/embed</code>.</div>
+                                    </div>
+                                </div>
+                                <div class="p-3 border rounded bg-white mb-4">
+                                    <h5 class="border-bottom pb-2 mb-3 text-dark"><i class="fab fa-instagram me-2 text-primary"></i>Social Media Links</h5>
+                                    <div class="mb-3">
+                                        <label for="set_social_instagram" class="form-label fw-bold">Instagram URL</label>
+                                        <input type="url" class="form-control" id="set_social_instagram" placeholder="https://instagram.com/yourprofile">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_social_facebook" class="form-label fw-bold">Facebook URL</label>
+                                        <input type="url" class="form-control" id="set_social_facebook" placeholder="https://facebook.com/yourpage">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_social_youtube" class="form-label fw-bold">YouTube URL</label>
+                                        <input type="url" class="form-control" id="set_social_youtube" placeholder="https://youtube.com/yourchannel">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="set_social_linkedin" class="form-label fw-bold">LinkedIn URL</label>
+                                        <input type="url" class="form-control" id="set_social_linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: SOCIAL LINKS -->
+        <div id="section-social-links" class="dashboard-section">
+            <div class="card-custom">
+                <div class="card-custom-header">
+                    <h4>Social Media Links</h4>
+                    <button class="btn btn-gold btn-sm px-3" data-bs-toggle="modal" data-bs-target="#socialModal" id="addSocialBtn">
+                        <i class="fas fa-plus me-1"></i> Add Social Link
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom align-middle">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Icon</th>
+                                <th>URL</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="social-links-table-body">
+                            <tr><td colspan="4" class="text-center text-muted">Loading Social Links...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: MAP LOCATIONS -->
+        <div id="section-map-locations" class="dashboard-section">
+            <div class="card-custom">
+                <div class="card-custom-header">
+                    <h4>Office & Map Locations</h4>
+                    <button class="btn btn-gold btn-sm px-3" data-bs-toggle="modal" data-bs-target="#mapModal" id="addMapBtn">
+                        <i class="fas fa-plus me-1"></i> Add Map Location
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom align-middle">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="map-locations-table-body">
+                            <tr><td colspan="4" class="text-center text-muted">Loading Map Locations...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROPERTY FORM MODAL (Add / Edit) -->
+    <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden" style="border-radius: 12px;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="propertyModalLabel">Add Property</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="propertyForm">
+                    <input type="hidden" id="propId">
+                    <div class="modal-body p-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="propTitle" class="form-label fw-bold">Title</label>
+                                    <input type="text" class="form-control" id="propTitle" required placeholder="e.g., Srinagar Scenic Villa">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="propCategory" class="form-label fw-bold">Category</label>
+                                    <select class="form-select" id="propCategory" required>
+                                        <option value="Apartment">Apartment</option>
+                                        <option value="Villa">Villa</option>
+                                        <option value="Plot">Plot</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="propPrice" class="form-label fw-bold">Price</label>
+                                    <input type="text" class="form-control" id="propPrice" required placeholder="e.g., ₹1.5 Cr or Enquire">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="propImageUrl" class="form-label fw-bold">Main Image URL</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="propImageUrl" placeholder="e.g., img/villa_exterior_both.png">
+                                        <input type="file" class="d-none media-upload-input" data-target="propImageUrl" accept="image/*">
+                                        <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i> Upload</button>
+                                    </div>
+                                    <div class="form-text">Leave blank or upload an image.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="propDescription" class="form-label fw-bold">Description</label>
+                                    <textarea class="form-control" id="propDescription" rows="4" placeholder="Describe the property highlights..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gallery Manager Section (Show only when editing) -->
+                        <div id="galleryManagerSection" class="mt-4 border-top pt-3 d-none">
+                            <h6 class="fw-bold mb-3 text-dark"><i class="fas fa-images me-2 text-primary"></i>Property Image Gallery (Multi-Image Carousel)</h6>
+                            <div id="galleryList" class="row g-2 mb-3">
+                                <!-- Thumbnails loaded dynamically -->
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="newGalleryImageUrl" placeholder="Upload or input image url... e.g. img/menu-1.jpg">
+                                <input type="file" class="d-none media-upload-input" data-target="newGalleryImageUrl" accept="image/*">
+                                <button class="btn btn-outline-secondary btn-upload-media" type="button"><i class="fas fa-upload"></i> Upload</button>
+                                <button class="btn btn-primary" type="button" id="addGalleryImageBtn">
+                                    <i class="fas fa-plus me-1"></i> Add to Gallery
+                                </button>
+                            </div>
+                            <div class="form-text">Images added here will display as a beautiful gallery slideshow when a user views this property on the front-end website.</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-gold px-4" id="savePropertyBtn">Save Property</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOCIAL LINK FORM MODAL (Add / Edit) -->
+    <div class="modal fade" id="socialModal" tabindex="-1" aria-labelledby="socialModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden" style="border-radius: 12px;">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="socialModalLabel">Add Social Link</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="socialForm">
+                    <input type="hidden" id="socialId">
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label for="socialPlatform" class="form-label fw-bold">Platform Name</label>
+                            <input type="text" class="form-control" id="socialPlatform" placeholder="e.g. Instagram, Facebook, LinkedIn" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="socialIcon" class="form-label fw-bold">Icon FontAwesome Class</label>
+                            <input type="text" class="form-control" id="socialIcon" placeholder="e.g. fab fa-instagram, fab fa-facebook-f, fab fa-linkedin-in" required>
+                            <div class="form-text text-muted">Use standard FontAwesome class prefix. Example: <span class="badge bg-secondary">fab fa-instagram</span></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="socialUrl" class="form-label fw-bold">Profile/Channel URL</label>
+                            <input type="url" class="form-control" id="socialUrl" placeholder="https://instagram.com/yourprofile" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-gold px-4">Save Link</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAP LOCATION FORM MODAL (Add / Edit) -->
+    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden" style="border-radius: 12px;">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="mapModalLabel">Add Map Location</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="mapForm">
+                    <input type="hidden" id="mapId">
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label for="mapTitle" class="form-label fw-bold">Location Title</label>
+                            <input type="text" class="form-control" id="mapTitle" placeholder="e.g. Srinagar Head Office, Gulmarg Sales Office" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mapAddress" class="form-label fw-bold">Full Address</label>
+                            <input type="text" class="form-control" id="mapAddress" placeholder="e.g. Srinagar, Kashmir" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mapUrl" class="form-label fw-bold">Google Maps Embed URL (iframe src)</label>
+                            <textarea class="form-control" id="mapUrl" rows="4" placeholder="Paste the src link (https://www.google.com/maps/embed...) from the Google Maps iframe embed code" required></textarea>
+                            <div class="form-text text-muted">To get this: Go to Google Maps -> Share -> Embed a map -> Copy only the <code>src</code> URL.</div>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="mapIsActive">
+                            <label class="form-check-label fw-bold" for="mapIsActive">Set as Active Map Location</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-gold px-4">Save Location</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Admin Dashboard JS -->
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

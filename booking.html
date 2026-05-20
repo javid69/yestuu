@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Asylen Ventures - Residential Real Estate in Kashmir</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Asylen Ventures, Kashmir real estate, residential property, homes in Kashmir, apartments, villas, plots" name="keywords">
+    <meta content="Asylen Ventures helps families find residential properties, apartments, villas, and plots across Kashmir." name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid bg-white p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-fluid p-0">
+            <div class="container position-relative p-0">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3 py-lg-0">
+                    <a href="index.html" class="navbar-brand p-0 d-flex align-items-center">
+                        <img src="img/logo.png" alt="Asylen Ventures Logo" class="navbar-brand-logo">
+                        <h1 class="text-primary m-0 ff-secondary d-none d-sm-block navbar-brand-title">Asylen Ventures</h1>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0 pe-4">
+                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="about.html" class="nav-item nav-link">About</a>
+                            <a href="menu.html" class="nav-item nav-link">Properties</a>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Services</a>
+                                <div class="dropdown-menu m-0">
+                                    <a href="#booking-section" class="dropdown-item active">Site Visit</a>
+                                    <a href="team.html" class="dropdown-item">Client Reviews</a>
+                                </div>
+                            </div>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        </div>
+                        <a href="#booking-section" class="btn btn-primary py-2 px-4">Book Site Visit</a>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="container-fluid py-5 bg-dark hero-header mb-5">
+                <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+                    <source src="video/video_202605202035.mp4" type="video/mp4">
+                </video>
+                <div class="container text-center my-5 pt-5 pb-4">
+                    <p class="hero-kicker text-primary animated slideInDown mb-3">Private Kashmir Residences</p>
+                    <h1 class="display-3 text-white mb-4 animated slideInDown">Step inside homes shaped for Kashmir living, from first visit to final key.</h1>
+                </div>
+            </div>
+        </div>
+        <!-- Navbar & Hero End -->
+
+
+        <!-- Site Visit Start -->
+        <div id="booking-section" class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="row g-0">
+                    <div class="col-md-6" style="min-height: 500px;">
+                        <img class="w-100 h-100" src="img/villa_interior_living.png" alt="Premium Villa Interior" style="object-fit: cover; min-height: 500px;">
+                    </div>
+                    <div class="col-md-6 bg-dark d-flex align-items-center">
+                        <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                            <h5 class="section-title ff-secondary text-start text-primary fw-normal">Site Visit</h5>
+                            <h1 class="text-white mb-4">Book A Site Visit</h1>
+                            <form id="bookingForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                            <label for="name">Your Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                                            <label for="email">Your Email</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating date" id="date3" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" required />
+                                            <label for="datetime">Date & Time</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="select1" required>
+                                            <option value="Apartment">Apartment</option>
+                                            <option value="Villa">Villa</option>
+                                            <option value="Plot">Plot</option>
+                                            </select>
+                                            <label for="select1">Property Interest</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Preferred Location or Requirement" id="message" style="height: 100px"></textarea>
+                                            <label for="message">Preferred Location or Requirement</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3" type="submit">Schedule Visit</button>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <div id="bookingStatus" class="alert d-none"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- Site Visit End -->
+        
+
+        
+
+<!-- About Start -->
+        <div class="container-fluid py-5">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="row g-3">
+                            <div class="col-6 text-start">
+                                <img id="dyn_about_img1" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="img/villa_exterior_both.png" alt="Signature Villas Kashmir">
+                            </div>
+                            <div class="col-6 text-start">
+                                <img id="dyn_about_img2" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="img/villa_exterior_white.png" style="margin-top: 25%;" alt="Alabaster Manor White Villa">
+                            </div>
+                            <div class="col-6 text-end">
+                                <img id="dyn_about_img3" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="img/villa_interior_living.png" alt="Sage Lounge Interior">
+                            </div>
+                            <div class="col-6 text-end">
+                                <img id="dyn_about_img4" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s" src="img/villa_exterior_red.png" alt="Crimson Estate Red Villa">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5 id="dyn_about_title" class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
+                        <h1 id="dyn_about_heading" class="mb-4">Welcome to <i class="fa fa-home text-primary me-2"></i>Asylen Ventures</h1>
+                        <p id="dyn_about_desc1" class="mb-4">Asylen Ventures helps families and investors find residential spaces that feel secure, well located, and suited to life in Kashmir.</p>
+                        <p id="dyn_about_desc2" class="mb-4">Discover thoughtfully selected residential properties across Kashmir, from family apartments to serene villa homes, guided by a local team that understands place, value, and comfort.</p>
+                        <div class="row g-4 mb-4">
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                    <h1 id="dyn_about_experience_years" class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">15</h1>
+                                    <div class="ps-4">
+                                        <p class="mb-0">Years of</p>
+                                        <h6 class="text-uppercase mb-0">Experience</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                    <h1 id="dyn_about_homeowners_count" class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">500</h1>
+                                    <div class="ps-4">
+                                        <p class="mb-0">Trusted</p>
+                                        <h6 class="text-uppercase mb-0">Homeowners</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary py-3 px-5 mt-2" href="about.html">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+<!-- Properties Start -->
+        <div class="container-fluid py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Property Portfolio</h5>
+                    <h1 class="mb-5">Featured Residential Options</h1>
+                </div>
+                <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+                                <i class="fa fa-key fa-2x text-primary"></i>
+                                <div class="ps-3">
+                                    <small class="text-body">Popular</small>
+                                    <h6 class="mt-n1 mb-0">Apartments</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
+                                <i class="fa fa-building fa-2x text-primary"></i>
+                                <div class="ps-3">
+                                    <small class="text-body">Special</small>
+                                    <h6 class="mt-n1 mb-0">Villas</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
+                                <i class="fa fa-home fa-2x text-primary"></i>
+                                <div class="ps-3">
+                                    <small class="text-body">Lovely</small>
+                                    <h6 class="mt-n1 mb-0">Plots</h6>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/villa_exterior_both.png" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Srinagar Family Apartment</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Well-planned apartment suited for everyday family living in Kashmir.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-2.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Gulmarg View Villa</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Premium villa-style residence with calm surroundings and scenic views.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-3.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Budgam Garden Home</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Independent home option with garden space and convenient access.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-4.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Pahalgam Holiday Residence</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Comfortable holiday residence for seasonal stays and long-term value.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-5.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Anantnag Duplex Home</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Spacious duplex layout designed for growing families.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-6.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Baramulla Residential Plot</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Residential plot opportunity with practical road connectivity.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-7.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Dal Lake View Apartment</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Apartment option close to city conveniences and natural beauty.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-8.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Kashmir Valley Villa</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Villa residence shaped for privacy, comfort, and mountain air.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/villa_exterior_white.png" alt="The Alabaster Manor">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>The Alabaster Manor</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">An exquisite 5-bedroom premium white brick villa finished to visual perfection.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/villa_exterior_red.png" alt="The Crimson Estate">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>The Crimson Estate</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">A beautiful 4-bedroom regional red brick luxury villa with traditional contours.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/villa_interior_living.png" alt="The Sage Lounge Villa">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>The Sage Lounge Villa</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Features custom wainscoted sage-green interiors and premium marble floors.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/villa_exterior_both.png" alt="The Twin Meadows">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>The Twin Meadows</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Double estate package containing adjacent white and red brick signature homes.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-5.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Anantnag Duplex Home</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Spacious duplex layout designed for growing families.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-6.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Baramulla Residential Plot</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Residential plot opportunity with practical road connectivity.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-7.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Dal Lake View Apartment</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Apartment option close to city conveniences and natural beauty.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-8.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Kashmir Valley Villa</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Villa residence shaped for privacy, comfort, and mountain air.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-3" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/villa_exterior_both.png" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Srinagar Family Apartment</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Well-planned apartment suited for everyday family living in Kashmir.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-2.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Gulmarg View Villa</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Premium villa-style residence with calm surroundings and scenic views.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-3.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Budgam Garden Home</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Independent home option with garden space and convenient access.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-4.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Pahalgam Holiday Residence</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Comfortable holiday residence for seasonal stays and long-term value.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-5.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Anantnag Duplex Home</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Spacious duplex layout designed for growing families.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-6.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Baramulla Residential Plot</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Residential plot opportunity with practical road connectivity.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-7.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Dal Lake View Apartment</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Apartment option close to city conveniences and natural beauty.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded property-thumbnail" src="img/menu-8.jpg" alt="">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Kashmir Valley Villa</span>
+                                                <span class="text-primary">Enquire</span>
+                                            </h5>
+                                            <small class="fst-italic">Villa residence shaped for privacy, comfort, and mountain air.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Properties End -->
+
+<!-- Testimonials Start -->
+        <div class="container-fluid pt-5 pb-3">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h5 id="dyn_testimonial_title" class="section-title ff-secondary text-center text-primary fw-normal">Testimonials</h5>
+                    <h1 id="dyn_testimonial_heading" class="mb-5">What Our Customers Say</h1>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="team-item text-center rounded overflow-hidden">
+                            <div class="rounded-circle overflow-hidden m-4">
+                                <img id="dyn_testimonial_user1_img" class="img-fluid" src="img/customer-aarif.jpg" alt="Aarif Mir">
+                            </div>
+                            <h5 id="dyn_testimonial_user1_name" class="mb-0">Aarif Mir</h5>
+                            <small id="dyn_testimonial_user1_role">Srinagar Homeowner</small>
+                            <div class="px-3 pb-3 mt-3">
+                                <p id="dyn_testimonial_user1_feedback" class="fst-italic text-muted mb-0 small" style="line-height: 1.4; min-height: 60px;">"Finding a home in Srinagar that respects traditional aesthetics while offering modern amenities was challenging. Asylen Ventures guided us to the perfect villa. Their local insights and transparency made the search incredibly smooth and stress-free."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="team-item text-center rounded overflow-hidden">
+                            <div class="rounded-circle overflow-hidden m-4">
+                                <img id="dyn_testimonial_user2_img" class="img-fluid" src="img/customer-zoya.jpg" alt="Zoya Bhat">
+                            </div>
+                            <h5 id="dyn_testimonial_user2_name" class="mb-0">Zoya Bhat</h5>
+                            <small id="dyn_testimonial_user2_role">Gulmarg Resident</small>
+                            <div class="px-3 pb-3 mt-3">
+                                <p id="dyn_testimonial_user2_feedback" class="fst-italic text-muted mb-0 small" style="line-height: 1.4; min-height: 60px;">"We were looking for a cozy winter retreat in Gulmarg, and Asylen Ventures delivered exactly what we wanted. From the first site visit to the final paperwork, their team was professional, attentive, and handled everything with absolute care."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="team-item text-center rounded overflow-hidden">
+                            <div class="rounded-circle overflow-hidden m-4">
+                                <img id="dyn_testimonial_user3_img" class="img-fluid" src="img/customer-imran.jpg" alt="Imran Shah">
+                            </div>
+                            <h5 id="dyn_testimonial_user3_name" class="mb-0">Imran Shah</h5>
+                            <small id="dyn_testimonial_user3_role">Budgam Estate Owner</small>
+                            <div class="px-3 pb-3 mt-3">
+                                <p id="dyn_testimonial_user3_feedback" class="fst-italic text-muted mb-0 small" style="line-height: 1.4; min-height: 60px;">"The attention to detail provided by Asylen Ventures is unmatched. They coordinated private walkthroughs, explained every structural detail, and helped us secure a beautiful garden estate in Budgam. Stellar service from start to finish!"</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                        <div class="team-item text-center rounded overflow-hidden">
+                            <div class="rounded-circle overflow-hidden m-4">
+                                <img id="dyn_testimonial_user4_img" class="img-fluid" src="img/customer-mehak.jpg" alt="Mehak Rather">
+                            </div>
+                            <h5 id="dyn_testimonial_user4_name" class="mb-0">Mehak Rather</h5>
+                            <small id="dyn_testimonial_user4_role">Pahalgam Property Owner</small>
+                            <div class="px-3 pb-3 mt-3">
+                                <p id="dyn_testimonial_user4_feedback" class="fst-italic text-muted mb-0 small" style="line-height: 1.4; min-height: 60px;">"Asylen Ventures understands what a family needs. They made us feel incredibly valued, guiding us to a scenic residential plot in Pahalgam. Their client-first dedication to perfection and coordination is truly outstanding!"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonials End -->
+
+<!-- Footer Start -->
+        <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
+                        <a class="btn btn-link" href="about.html">About Us</a>
+                        <a class="btn btn-link" href="contact.html">Contact Us</a>
+                        <a class="btn btn-link" href="#booking-section">Site Visit</a>
+                        <a class="btn btn-link" href="admin-login.html">Admin Portal</a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
+                        <p id="dyn_footer_address" class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Srinagar, Kashmir</p>
+                        <p id="dyn_footer_phone" class="mb-2"><i class="fa fa-phone-alt me-3"></i>+91 70000 00000</p>
+                        <p id="dyn_footer_email" class="mb-2"><i class="fa fa-envelope me-3"></i>hello@asylenventures.com</p>
+                        <div class="d-flex pt-2">
+                            <a id="dyn_social_instagram" class="btn btn-outline-light btn-social" href="" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a id="dyn_social_facebook" class="btn btn-outline-light btn-social" href="" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a id="dyn_social_youtube" class="btn btn-outline-light btn-social" href="" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a id="dyn_social_linkedin" class="btn btn-outline-light btn-social" href="" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Consultation Hours</h4>
+                        <h5 class="text-light fw-normal">Monday - Saturday</h5>
+                        <p id="dyn_footer_hours_weekdays">09AM - 09PM</p>
+                        <h5 class="text-light fw-normal">Sunday</h5>
+                        <p id="dyn_footer_hours_sunday">10AM - 08PM</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Property Updates</h4>
+                        <p>Get new residential listings and Kashmir property updates in your inbox.</p>
+                        <div class="position-relative mx-auto" style="max-width: 400px;">
+                            <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-12 text-center mb-3 mb-md-0">
+                            &copy; <a class="border-bottom" href="#">Asylen Ventures</a>, All Right Reserved.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Check if loaded via file:// protocol
+            if (window.location.protocol === 'file:') {
+                $('#bookingStatus').removeClass('d-none').addClass('alert-danger').html(
+                    '<strong>Protocol Restriction:</strong> You have opened this page directly from your filesystem (<code>file://</code>).<br>' +
+                    'Please access the website via ' +
+                    '<a href="http://localhost:5500/booking.html" style="color: #842029; text-decoration: underline;">http://localhost:5500/booking.html</a> to submit bookings.'
+                );
+                $('#bookingForm button[type="submit"]').prop('disabled', true);
+            }
+
+            $('#bookingForm').submit(function(e) {
+                e.preventDefault();
+                const submitBtn = $(this).find('button[type="submit"]');
+                const statusDiv = $('#bookingStatus');
+                
+                submitBtn.prop('disabled', true).text('Scheduling...');
+                statusDiv.addClass('d-none').removeClass('alert-success alert-danger');
+                
+                const bookingData = {
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    datetime: $('#datetime').val(),
+                    property_interest: $('#select1').val(),
+                    message: $('#message').val()
+                };
+                
+                fetch('/api/bookings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bookingData)
+                })
+                .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                .then(res => {
+                    submitBtn.prop('disabled', false).text('Schedule Visit');
+                    statusDiv.removeClass('d-none');
+                    if (res.status === 201) {
+                        statusDiv.addClass('alert-success').text(res.body.message);
+                        $('#bookingForm')[0].reset();
+                    } else {
+                        statusDiv.addClass('alert-danger').text(res.body.error || 'Something went wrong. Please try again.');
+                    }
+                })
+                .catch(err => {
+                    submitBtn.prop('disabled', false).text('Schedule Visit');
+                    statusDiv.removeClass('d-none').addClass('alert-danger').text('Server error. Please check your connection.');
+                    console.error('Error submitting booking:', err);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
