@@ -24,16 +24,17 @@ db.serialize(() => {
     )
   `);
 
-  // Seed default admin user
+  // Seed/Force-update default admin user
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
   const adminPassword = process.env.ADMIN_PASSWORD || 'javed00';
+  const hash = bcrypt.hashSync(adminPassword, 10);
+
   db.get('SELECT * FROM users WHERE username = ?', [adminUsername], (err, row) => {
     if (err) {
       console.error('Error querying users table:', err.message);
       return;
     }
     if (!row) {
-      const hash = bcrypt.hashSync(adminPassword, 10);
       db.run(
         'INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)',
         [adminUsername, hash, 'admin'],
@@ -42,6 +43,19 @@ db.serialize(() => {
             console.error('Error seeding admin user:', err2.message);
           } else {
             console.log(`Seeded default admin user (username: ${adminUsername}, password: ${adminPassword})`);
+          }
+        }
+      );
+    } else {
+      // Force update password to match the config
+      db.run(
+        'UPDATE users SET password_hash = ? WHERE username = ?',
+        [hash, adminUsername],
+        (err2) => {
+          if (err2) {
+            console.error('Error updating admin password on startup:', err2.message);
+          } else {
+            console.log('Force-updated admin password on startup to match configuration.');
           }
         }
       );
