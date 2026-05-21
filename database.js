@@ -25,8 +25,8 @@ db.serialize(() => {
   `);
 
   // Seed default admin user
-  const adminUsername = 'admin';
-  const adminPassword = 'Admin123!';
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'javed00';
   db.get('SELECT * FROM users WHERE username = ?', [adminUsername], (err, row) => {
     if (err) {
       console.error('Error querying users table:', err.message);
@@ -41,7 +41,7 @@ db.serialize(() => {
           if (err2) {
             console.error('Error seeding admin user:', err2.message);
           } else {
-            console.log('Seeded default admin user (username: admin, password: Admin123!)');
+            console.log(`Seeded default admin user (username: ${adminUsername}, password: ${adminPassword})`);
           }
         }
       );
