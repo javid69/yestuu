@@ -171,6 +171,40 @@ app.post(['/api/auth/login', '/api/admin/login'], (req, res) => {
   });
 });
 
+// Diagnostic Endpoint (Temporary for verification of Render deployment/database status)
+app.get('/api/debug-auth-status', (req, res) => {
+  db.all('SELECT id, username, role, created_at FROM users', [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database query error: ' + err.message });
+    }
+    db.get('SELECT password_hash FROM users WHERE username = ?', ['admin'], (err2, user) => {
+      if (err2) {
+        return res.status(500).json({ error: 'Database admin query error: ' + err2.message });
+      }
+      const bcrypt = require('bcryptjs');
+      let hashMatchesJaved00 = false;
+      let hashMatchesAdmin123 = false;
+      if (user && user.password_hash) {
+        hashMatchesJaved00 = bcrypt.compareSync('javed00', user.password_hash);
+        hashMatchesAdmin123 = bcrypt.compareSync('Admin123!', user.password_hash);
+      }
+      res.json({
+        users: rows,
+        adminPasswordStatus: {
+          exists: !!user,
+          hash: user ? user.password_hash : null,
+          matchesJaved00: hashMatchesJaved00,
+          matchesAdmin123: hashMatchesAdmin123
+        },
+        env: {
+          ADMIN_USERNAME: process.env.ADMIN_USERNAME || '(default: admin)',
+          NODE_ENV: process.env.NODE_ENV || '(not set)'
+        }
+      });
+    });
+  });
+});
+
 // Verify Auth Token Route / Admin Me Route
 app.get(['/api/auth/verify', '/api/admin/me'], (req, res) => {
   const token = req.cookies.token;
