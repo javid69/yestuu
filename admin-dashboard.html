@@ -52,6 +52,34 @@
             z-index: 100;
             transition: all 0.3s ease;
             box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+
+        .sidebar-menu li.logout-item a {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: #ef4444;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+        .sidebar-menu li.logout-item a i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        .sidebar-menu li.logout-item a:hover {
+            color: #f87171;
+            background-color: rgba(239, 68, 68, 0.04);
+            border-left-color: #ef4444;
+        }
+        
+        #headerLogoutBtn:hover {
+            color: #dc2626 !important;
+            text-decoration: underline !important;
         }
 
         .sidebar-brand {
@@ -62,8 +90,10 @@
         }
 
         .sidebar-brand img {
-            height: 35px;
+            height: 42px; /* Increased logo size */
             margin-right: 10px;
+            position: relative;
+            top: 5px; /* Shifted more down */
         }
 
         .sidebar-brand h3 {
@@ -71,6 +101,7 @@
             font-size: 1.25rem;
             font-weight: 700;
             margin: 0;
+            line-height: 1;
             color: var(--primary-gold);
         }
 
@@ -517,8 +548,11 @@
             <li class="menu-item" data-section="map-locations">
                 <a href="#map-locations"><i class="fas fa-map-marked-alt"></i>Map Locations</a>
             </li>
-            <li style="margin-top: 40px;">
-                <a href="#" id="logoutBtn" class="text-danger"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
+            <li class="menu-item" data-section="subscribers">
+                <a href="#subscribers"><i class="fas fa-paper-plane"></i>Subscribers</a>
+            </li>
+            <li class="logout-item" style="margin-top: 20px;">
+                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
             </li>
         </ul>
     </div>
@@ -535,7 +569,10 @@
                 <h2>Asylen Ventures Portal</h2>
             </div>
             <div class="header-user">
-                <span>Welcome, Administrator</span>
+                <div class="d-flex flex-column align-items-end me-2">
+                    <span style="font-size: 0.9rem; font-weight: 600; color: #475569; line-height: 1.2;">Administrator</span>
+                    <a href="#" id="headerLogoutBtn" style="font-size: 0.75rem; color: #ef4444; text-decoration: none; font-weight: 600; transition: all 0.2s ease; margin-top: 2px;"><i class="fas fa-sign-out-alt me-1"></i>Sign Out</a>
+                </div>
                 <i class="fas fa-user-circle fa-2x text-muted"></i>
             </div>
         </div>
@@ -733,6 +770,9 @@
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="tab-contact-tab" data-bs-toggle="tab" data-bs-target="#tab-contact" type="button" role="tab"><i class="fas fa-phone-alt me-1"></i> Contact Details</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tab-security-tab" data-bs-toggle="tab" data-bs-target="#tab-security" type="button" role="tab"><i class="fas fa-shield-alt me-1"></i> Security</button>
                             </li>
                         </ul>
 
@@ -1214,6 +1254,28 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- SECURITY TAB -->
+                            <div class="tab-pane fade" id="tab-security" role="tabpanel">
+                                <div class="p-3 border rounded bg-white mb-4">
+                                    <h5 class="border-bottom pb-2 mb-3 text-dark"><i class="fas fa-shield-alt me-2 text-primary"></i>Change Admin Password</h5>
+                                    <div id="passwordStatus" class="alert d-none mb-3"></div>
+                                    <div class="mb-3">
+                                        <label for="currPassword" class="form-label fw-bold">Current Password</label>
+                                        <input type="password" class="form-control" id="currPassword" placeholder="Enter current admin password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="newPassword" class="form-label fw-bold">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="confirmPassword" class="form-label fw-bold">Confirm New Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+                                    </div>
+                                    <button type="button" class="btn btn-gold px-4" id="changePasswordBtn">
+                                        <i class="fas fa-key me-1"></i> Update Password
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -1268,6 +1330,30 @@
                         </thead>
                         <tbody id="map-locations-table-body">
                             <tr><td colspan="4" class="text-center text-muted">Loading Map Locations...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: SUBSCRIBERS -->
+        <div id="section-subscribers" class="dashboard-section">
+            <div class="card-custom">
+                <div class="card-custom-header">
+                    <h4>Newsletter Subscribers</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Subscribed Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscribers-table-body">
+                            <tr><td colspan="4" class="text-center text-muted">Loading Subscribers...</td></tr>
                         </tbody>
                     </table>
                 </div>

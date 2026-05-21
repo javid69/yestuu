@@ -193,6 +193,37 @@ app.post(['/api/auth/logout', '/api/admin/logout'], (req, res) => {
   res.json({ message: 'Logged out successfully' });
 });
 
+// Change Password Route (Admin only)
+app.post('/api/admin/change-password', authenticateToken, (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'Current password and new password are required.' });
+  }
+
+  db.get('SELECT * FROM users WHERE id = ?', [req.user.id], (err, user) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error fetching user profile.' });
+    }
+    if (!user) {
+      return res.status(404).json({ error: 'Admin user not found.' });
+    }
+
+    const validPassword = bcrypt.compareSync(currentPassword, user.password_hash);
+    if (!validPassword) {
+      return res.status(400).json({ error: 'Incorrect current password.' });
+    }
+
+    const newHash = bcrypt.hashSync(newPassword, 10);
+    db.run('UPDATE users SET password_hash = ? WHERE id = ?', [newHash, req.user.id], (err2) => {
+      if (err2) {
+        return res.status(500).json({ error: 'Failed to update admin password.' });
+      }
+      res.json({ message: 'Password updated successfully!' });
+    });
+  });
+});
+
 
 // ==========================================
 // 2. BOOKINGS ENDPOINTS (SITE VISITS)
@@ -418,6 +449,62 @@ app.delete('/api/messages/:id', authenticateToken, (req, res) => {
       return res.status(404).json({ error: 'Message not found.' });
     }
     res.json({ message: 'Message deleted successfully.' });
+  });
+});
+
+// ==========================================
+// 4.5. NEWSLETTER SUBSCRIBERS ENDPOINTS
+// ==========================================
+
+// Subscribe to newsletter (Public)
+app.post('/api/newsletter/subscribe', (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required.' });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Please enter a valid email address.' });
+  }
+
+  db.run(
+    'INSERT INTO newsletter_subscribers (email) VALUES (?)',
+    [email.trim().toLowerCase()],
+    function (err) {
+      if (err) {
+        if (err.message.includes('UNIQUE constraint failed')) {
+          return res.status(400).json({ error: 'This email is already subscribed.' });
+        }
+        return res.status(500).json({ error: 'Failed to subscribe: ' + err.message });
+      }
+      res.status(201).json({ message: 'Subscribed successfully! Thank you.' });
+    }
+  );
+});
+
+// Get all newsletter subscribers (Admin only)
+app.get('/api/newsletter/subscribers', authenticateToken, (req, res) => {
+  db.all('SELECT * FROM newsletter_subscribers ORDER BY created_at DESC', [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error: ' + err.message });
+    }
+    res.json(rows);
+  });
+});
+
+// Delete a subscriber (Admin only)
+app.delete('/api/newsletter/subscribers/:id', authenticateToken, (req, res) => {
+  const { id } = req.params;
+
+  db.run('DELETE FROM newsletter_subscribers WHERE id = ?', [id], function (err) {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to delete subscriber: ' + err.message });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'Subscriber not found.' });
+    }
+    res.json({ message: 'Subscriber deleted successfully.' });
   });
 });
 

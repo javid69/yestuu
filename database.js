@@ -194,6 +194,15 @@ db.serialize(() => {
     )
   `);
 
+  // Newsletter Subscribers Table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
   // 5. Property Gallery Table
   db.run(`
     CREATE TABLE IF NOT EXISTS property_gallery (

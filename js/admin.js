@@ -34,6 +34,7 @@ $(document).ready(function() {
         loadMessages();
         loadProperties();
         loadSettings();
+        loadSubscribers();
 
         // Bind navigation clicks
         $('.sidebar-menu .menu-item').click(function(e) {
@@ -49,8 +50,8 @@ $(document).ready(function() {
             switchSection(section);
         });
 
-        // Bind logout click
-        $('#logoutBtn').click(function(e) {
+        // Bind logout click (both sidebar and header logout buttons)
+        $('#logoutBtn, #headerLogoutBtn').click(function(e) {
             e.preventDefault();
             if (confirm('Are you sure you want to sign out?')) {
                 fetch('/api/admin/logout', { method: 'POST' })
@@ -83,6 +84,12 @@ $(document).ready(function() {
                 return;
             }
             saveSettings();
+        });
+
+        // Change Password click handler
+        $('#changePasswordBtn').click(function(e) {
+            e.preventDefault();
+            changePassword();
         });
 
         // Social Link Form submit handler
@@ -192,6 +199,8 @@ $(document).ready(function() {
             loadSocialLinks();
         } else if (sectionId === 'map-locations') {
             loadMapLocations();
+        } else if (sectionId === 'subscribers') {
+            loadSubscribers();
         }
     }
 
@@ -671,6 +680,58 @@ $(document).ready(function() {
         });
     }
 
+    function changePassword() {
+        const currPassword = $('#currPassword').val();
+        const newPassword = $('#newPassword').val();
+        const confirmPassword = $('#confirmPassword').val();
+        const statusDiv = $('#passwordStatus');
+
+        statusDiv.addClass('d-none').removeClass('alert-success alert-danger');
+
+        if (!currPassword || !newPassword || !confirmPassword) {
+            statusDiv.removeClass('d-none').addClass('alert-danger').text('All password fields are required.');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            statusDiv.removeClass('d-none').addClass('alert-danger').text('New passwords do not match.');
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            statusDiv.removeClass('d-none').addClass('alert-danger').text('New password must be at least 6 characters long.');
+            return;
+        }
+
+        $('#changePasswordBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Updating...');
+
+        fetch('/api/admin/change-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ currentPassword: currPassword, newPassword: newPassword })
+        })
+        .then(res => {
+            return res.json().then(data => {
+                if (res.status === 200) {
+                    statusDiv.removeClass('d-none').addClass('alert-success').text('Password changed successfully!');
+                    $('#currPassword').val('');
+                    $('#newPassword').val('');
+                    $('#confirmPassword').val('');
+                    setTimeout(() => statusDiv.addClass('d-none'), 5000);
+                } else {
+                    statusDiv.removeClass('d-none').addClass('alert-danger').text(data.error || 'Failed to update password.');
+                }
+            });
+        })
+        .catch(err => {
+            console.error('Error changing password:', err);
+            statusDiv.removeClass('d-none').addClass('alert-danger').text('Server error changing password.');
+        })
+        .finally(() => {
+            $('#changePasswordBtn').prop('disabled', false).html('<i class="fas fa-key me-1"></i> Update Password');
+        });
+    }
+
     // ==========================================
     // 9. Social Links Management
     // ==========================================
@@ -933,6 +994,80 @@ $(document).ready(function() {
                     } else {
                         alert('Failed to delete map location.');
                     }
+                });
+        }
+    }
+
+    function loadSubscribers() {
+        fetch('/api/newsletter/subscribers')
+            .then(res => {
+                if (res.status === 401 || res.status === 403) {
+                    window.location.href = 'admin-login.html';
+                    throw new Error('Not authenticated');
+                }
+                if (!res.ok) {
+                    throw new Error(`Server returned status ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(subscribers => {
+                const tbody = $('#subscribers-table-body');
+                tbody.empty();
+
+                if (!Array.isArray(subscribers)) {
+                    tbody.append('<tr><td colspan="4" class="text-center text-danger">Invalid data received from server</td></tr>');
+                    return;
+                }
+
+                if (subscribers.length === 0) {
+                    tbody.append('<tr><td colspan="4" class="text-center text-muted">No subscribers yet</td></tr>');
+                    return;
+                }
+
+                subscribers.forEach(sub => {
+                    let dateStr = 'N/A';
+                    if (sub.created_at) {
+                        const dateObj = new Date(sub.created_at.replace(' ', 'T'));
+                        dateStr = isNaN(dateObj.getTime()) ? sub.created_at : dateObj.toLocaleString();
+                    }
+                    tbody.append(`
+                        <tr>
+                            <td class="fw-bold">#${sub.id}</td>
+                            <td><a href="mailto:${sub.email}">${sub.email}</a></td>
+                            <td>${dateStr}</td>
+                            <td>
+                                <button class="btn-action btn-action-delete delete-subscriber-btn" data-id="${sub.id}" title="Delete Subscriber">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `);
+                });
+
+                $('.delete-subscriber-btn').click(function() {
+                    deleteSubscriber($(this).data('id'));
+                });
+            })
+            .catch(err => {
+                console.error('Error loading subscribers:', err);
+                const tbody = $('#subscribers-table-body');
+                tbody.empty().append(`<tr><td colspan="4" class="text-center text-danger">Error loading subscribers: ${err.message}</td></tr>`);
+            });
+    }
+
+    function deleteSubscriber(id) {
+        if (confirm(`Are you sure you want to delete Subscriber #${id}?`)) {
+            fetch(`/api/newsletter/subscribers/${id}`, { method: 'DELETE' })
+                .then(res => {
+                    if (res.status === 200) {
+                        loadSubscribers();
+                    } else {
+                        alert('Failed to delete subscriber.');
+                    }
+                })
+                .catch(err => {
+                    console.error('Error deleting subscriber:', err);
+                    alert('Server error deleting subscriber.');
                 });
         }
     }

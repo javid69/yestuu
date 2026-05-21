@@ -113,27 +113,29 @@
 }
 
 .navbar-brand-logo {
-    height: 44px;
+    height: 50px; /* Slightly bigger logo */
     width: auto;
     margin-right: 12px;
     transition: all .3s ease;
     align-self: center;
     position: relative;
-    top: 4px;
+    top: 8px; /* Shifted more down */
     filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
 }
 
 .sticky-top.navbar-dark .navbar-brand-logo {
-    height: 36px;
-    top: 2px;
+    height: 42px; /* Slightly bigger logo for sticky navbar */
+    top: 6px; /* Shifted more down */
     filter: none;
 }
 
 .navbar-brand-title {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: 1.85rem !important; /* Override small ff-secondary size */
+    font-family: var(--font-title) !important;
+    font-style: italic !important;
+    font-weight: 700 !important;
     letter-spacing: 0.5px;
-    line-height: 1;
+    line-height: 1 !important;
     margin: 0;
     transition: all .3s ease;
     align-self: center;
@@ -141,7 +143,7 @@
 }
 
 .sticky-top.navbar-dark .navbar-brand-title {
-    font-size: 1.45rem;
+    font-size: 1.55rem !important;
     text-shadow: none;
 }
 
@@ -163,18 +165,20 @@
     }
 
     .navbar-dark .navbar-brand img {
-        max-height: 45px;
+        max-height: 52px;
     }
     
     .navbar-brand-logo {
-        height: 38px;
+        height: 44px;
         position: relative;
-        top: 3px;
+        top: 7px; /* Shifted more down */
+        align-self: center;
         filter: none;
     }
     
     .navbar-brand-title {
-        font-size: 1.55rem;
+        font-size: 1.65rem !important;
+        align-self: center;
         text-shadow: none;
     }
 }

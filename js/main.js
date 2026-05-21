@@ -477,6 +477,103 @@
                 $('#name').focus();
             }, 900);
         }
+
+        // 3. Footer Newsletter Subscription
+        const newsletterInput = $('.footer input[placeholder="Your email"]');
+        if (newsletterInput.length > 0) {
+            const newsletterButton = newsletterInput.siblings('button');
+            const newsletterContainer = newsletterInput.parent();
+
+            // Set input type to email for mobile device keyboard support and semantic validity
+            newsletterInput.attr('type', 'email');
+
+            function submitNewsletter() {
+                const email = newsletterInput.val().trim();
+                const originalText = newsletterButton.text();
+
+                // Remove existing messages
+                newsletterContainer.parent().find('.newsletter-msg').remove();
+
+                if (window.location.protocol === 'file:') {
+                    showMsg('Form submissions are disabled when running via file:// directly. Please open <a href="http://localhost:5500" style="color: #842029; text-decoration: underline;">http://localhost:5500</a> to signup.', false);
+                    return;
+                }
+
+                if (!email) {
+                    showMsg('Email address is required.', false);
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showMsg('Please enter a valid email address.', false);
+                    return;
+                }
+
+                newsletterButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+
+                fetch('/api/newsletter/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                })
+                .then(res => {
+                    const isSuccess = res.status === 201;
+                    return res.json()
+                        .then(data => {
+                            showMsg(data.message || data.error, isSuccess);
+                            if (isSuccess) {
+                                newsletterInput.val('');
+                            }
+                        })
+                        .catch(() => {
+                            if (res.status === 404) {
+                                showMsg('API endpoint not found (404). Please restart your Node server in the terminal to load the new routes.', false);
+                            } else {
+                                showMsg(`Server error (status ${res.status}).`, false);
+                            }
+                        });
+                })
+                .catch(err => {
+                    console.error('Newsletter submission error:', err);
+                    showMsg('Connection error. Please check if your Node server is running.', false);
+                })
+                .finally(() => {
+                    newsletterButton.prop('disabled', false).text(originalText);
+                });
+            }
+
+            function showMsg(text, isSuccess) {
+                const alertClass = isSuccess ? 'alert-success' : 'alert-danger';
+                const msgHtml = `
+                    <div class="alert ${alertClass} p-2 mt-2 text-center newsletter-msg" style="font-size: 0.85rem; border-radius: 4px; animation: fadeIn 0.3s ease; width: 100%;">
+                        ${text}
+                    </div>
+                `;
+                newsletterContainer.after(msgHtml);
+
+                // Auto-fade out after 4 seconds
+                setTimeout(() => {
+                    newsletterContainer.parent().find('.newsletter-msg').fadeOut(500, function() {
+                        $(this).remove();
+                    });
+                }, 4000);
+            }
+
+            // Click listener
+            newsletterButton.click(function(e) {
+                e.preventDefault();
+                submitNewsletter();
+            });
+
+            // Enter keypress listener
+            newsletterInput.keypress(function(e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    submitNewsletter();
+                }
+            });
+        }
     });
 
 })(jQuery);

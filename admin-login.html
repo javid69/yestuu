@@ -92,8 +92,10 @@
         }
 
         .brand-logo-container img {
-            height: 50px;
+            height: 58px; /* Increased logo size */
             margin-right: 12px;
+            position: relative;
+            top: 7px; /* Shifted more down */
         }
 
         .brand-logo-container h1 {
@@ -101,6 +103,7 @@
             font-size: 1.8rem;
             font-weight: 700;
             margin: 0;
+            line-height: 1;
             background: linear-gradient(135deg, #FEF08A 0%, #DCAF6A 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -227,14 +230,35 @@
                 return;
             }
 
-            // Check if already logged in (redirect to dashboard)
-            fetch('/api/admin/me')
+            // Check connection to the Express backend API
+            fetch('/api/settings')
                 .then(res => {
-                    if (res.status === 200) {
-                        window.location.href = 'admin-dashboard.html';
+                    const contentType = res.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        throw new Error('Not an Express API response');
                     }
+                    return res.json();
                 })
-                .catch(err => console.log('Session check failed:', err));
+                .then(settings => {
+                    // Backend is verified! Now check if already logged in (redirect to dashboard)
+                    fetch('/api/admin/me')
+                        .then(res => {
+                            if (res.status === 200) {
+                                window.location.href = 'admin-dashboard.html';
+                            }
+                        })
+                        .catch(err => console.log('Session check failed:', err));
+                })
+                .catch(err => {
+                    console.error('API Verification failed:', err);
+                    $('#loginStatus').removeClass('d-none').html(
+                        '<strong>Backend Connection Error:</strong> Cannot connect to the Express API.<br>' +
+                        'If you are using a static server (like VS Code Live Server), please access the site through the backend port instead: ' +
+                        '<a href="http://localhost:5500/admin-login.html" style="color: #FEF08A; text-decoration: underline;">http://localhost:5500/admin-login.html</a>.<br>' +
+                        'Otherwise, verify that the Node server is running (<code>node server.js</code>).'
+                    );
+                    $('#loginBtn').prop('disabled', true);
+                });
 
             $('#loginForm').submit(function(e) {
                 e.preventDefault();
